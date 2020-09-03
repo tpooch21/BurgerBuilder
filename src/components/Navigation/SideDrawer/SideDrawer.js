@@ -8,11 +8,17 @@ import classes from './SideDrawer.module.css';
 
 const sideDrawer = props => {
   // css classes for animation
+  const sideDrawerOpenOrClosed = [classes.SideDrawer, classes.Close];
+  if (props.show) {
+    sideDrawerOpenOrClosed[1] = classes.Open;
+  }
 
   return (
     <Aux>
-      <Backdrop show={true}/>
-      <div className={classes.SideDrawer}>
+      <Backdrop
+        show={props.show}
+        close={props.close}/>
+      <div className={sideDrawerOpenOrClosed.join(" ")}>
         <div className={classes.Logo}>
           <Logo />
         </div>
