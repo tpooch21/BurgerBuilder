@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
@@ -17,6 +18,24 @@ class ContactData extends Component {
     loading: false
   };
 
+  fillOutForm = (event) => {
+    const inputType = event.target.name;
+    const inputValue = event.target.value;
+
+    if (inputType === 'street' || inputType === 'postalCode') {
+      this.setState({
+        address: {
+          ...this.state.address,
+          [inputType]: inputValue
+        }
+      });
+    } else {
+      this.setState({
+        [inputType]: inputValue
+      });
+    }
+  }
+
   orderHandler = (event) => {
     event.preventDefault();
     console.log(this.props.ingredients);
@@ -28,11 +47,12 @@ class ContactData extends Component {
           ingredients: this.props.ingredients,
           price: this.props.price,
           customer: {
-              name: 'Trevor',
+              name: this.state.name,
               address: {
-                  street: 'Sesame Street'
+                  street: this.state.address.street,
+                  postalCode: this.state.address.postalCode
                 },
-                email: 'tmoney@wealth.com'
+                email: this.state.email
               }
             }
             axios.post('/order.json', order)
@@ -48,10 +68,10 @@ class ContactData extends Component {
   render() {
     let form = (
       <form>
-        <input className={classes.Input} type="text" name="name" placeholder="Your name" />
-        <input className={classes.Input} type="text" name="email" placeholder="Your email" />
-        <input className={classes.Input} type="text" name="street" placeholder="Street address" />
-        <input className={classes.Input} type="text" name="postal" placeholder="Postal Code" />
+        <input className={classes.Input} onChange={this.fillOutForm} value={this.state.name} type="text" name="name" placeholder="Your name" />
+        <input className={classes.Input} onChange={this.fillOutForm} value={this.state.email} type="text" name="email" placeholder="Your email" />
+        <input className={classes.Input} onChange={this.fillOutForm} value={this.state.address.street} type="text" name="street" placeholder="Street address" />
+        <input className={classes.Input} onChange={this.fillOutForm} value={this.state.address.postalCode} type="text" name="postal" placeholder="Postal Code" />
         <Button
           btnType="Success"
           clicked={this.orderHandler}>ORDER</Button>
@@ -70,4 +90,11 @@ class ContactData extends Component {
   }
 }
 
-export default ContactData;
+const mapStateToProps = state => {
+  return {
+    ingredients: state.ingredients,
+    price: state.totalPrice
+  };
+}
+
+export default connect(mapStateToProps)(ContactData);

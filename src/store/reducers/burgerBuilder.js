@@ -9,16 +9,12 @@
  *    addition of order on checkout
  *
  */
-import * as actionTypes from './actions.js';
+import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-  ingredients: {
-    meat: 0,
-    cheese: 0,
-    salad: 0,
-    bacon: 0
-  },
-  totalPrice: 0
+  ingredients: null,
+  totalPrice: 4,
+  error: false
 };
 
 const INGREDIENT_PRICES = {
@@ -49,13 +45,27 @@ const ingredientsAndPriceReducer = (state = initialState, action) => {
       currentAmount = state.ingredients[action.ingredient];
       priceOfIngredient = INGREDIENT_PRICES[action.ingredient];
 
+      if (currentAmount) {
+        return {
+          ...state,
+          ingredients: {
+            ...state.ingredients,
+            [action.ingredient]: currentAmount - 1
+          },
+          totalPrice: state.totalPrice - priceOfIngredient
+        };
+      } else {
+        return state;
+      }
+    case actionTypes.SET_INGREDIENTS:
       return {
         ...state,
-        ingredients: {
-          ...state.ingredients,
-          [action.ingredient]: currentAmount - 1
-        },
-        totalPrice: state.totalPrice - priceOfIngredient
+        ingredients: action.ingredients
+      };
+    case actionTypes.FETCH_INGREDIENTS_FAILED:
+      return {
+        ...state,
+        error: true
       };
     default:
       return state;
