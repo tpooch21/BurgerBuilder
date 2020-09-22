@@ -13,9 +13,12 @@ import ordersReducer from './store/reducers/order';
 // Redux devTools configuration
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-// const rootReducer = combineReducers(burgerBuilderReducer, ordersReducer);
+const rootReducer = combineReducers({
+  burgerBuilder: burgerBuilderReducer,
+  order: ordersReducer
+});
 
-const store = createStore(burgerBuilderReducer, composeEnhancers(applyMiddleware(thunk)));
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 
 ReactDOM.render(
   <React.StrictMode>
