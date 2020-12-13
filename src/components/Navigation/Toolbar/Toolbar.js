@@ -1,18 +1,18 @@
-import React from 'react';
+import React from "react";
 
-import classes from './Toolbar.module.css';
-import Logo from '../../Logo/Logo';
-import NavigationItems from '../NavigationItems/NavigationItems';
-import MenuButton from './MenuButton/MenuButton';
+import classes from "./Toolbar.module.css";
+import Logo from "../../Logo/Logo";
+import NavigationItems from "../NavigationItems/NavigationItems";
+import MenuButton from "./MenuButton/MenuButton";
 
-const toolbar = props => (
+const toolbar = (props) => (
   <header className={classes.Toolbar}>
     <MenuButton clicked={props.open} />
     <div className={classes.Logo}>
       <Logo />
     </div>
     <nav className={classes.DesktopOnly}>
-      <NavigationItems />
+      <NavigationItems auth={props.loggedIn} />
     </nav>
   </header>
 );
