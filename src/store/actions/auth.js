@@ -58,3 +58,8 @@ export const auth = (email, password, method) => {
       });
   };
 };
+
+export const setAuthRedirect = (path) => ({
+  type: actionTypes.SET_AUTH_REDIRECT,
+  path: path,
+});
