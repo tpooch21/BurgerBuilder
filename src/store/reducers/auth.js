@@ -25,6 +25,10 @@ const authFail = (state, action) => {
   return updateObject(state, { error: action.error, loading: false });
 };
 
+const authLogout = (state, action) => {
+  return updateObject(state, { userId: null, token: null });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_START:
