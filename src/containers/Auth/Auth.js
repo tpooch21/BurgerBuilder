@@ -94,7 +94,7 @@ class Auth extends Component {
 
   render() {
     const switchTo = this.state.isSignup ? "Sign In" : "Sign Up";
-    const authMode = this.state.isSignup ? "Sign Up" : "Sign In";
+    let authMode = this.state.isSignup ? "Sign Up" : "Sign In";
 
     const formElementsArray = [];
     for (let key in this.state.controls) {
@@ -121,9 +121,13 @@ class Auth extends Component {
       ))
     );
 
+    if (this.props.error) {
+      authMode = this.props.error.message;
+    }
+
     return (
       <div className={classes.Auth}>
-        <h3>{authMode}</h3>
+        <h3 className={this.props.error && classes.error}>{authMode}</h3>
         <form onSubmit={this.submitHandler}>
           {form}
           <Button btnType="Success">Submit</Button>

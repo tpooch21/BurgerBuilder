@@ -39,6 +39,9 @@ export const auth = (email, password, method) => {
         console.log(res.data);
         dispatch(authSuccess(res.data));
       })
-      .catch((err) => dispatch(authFail(err)));
+      .catch((err) => {
+        console.log(err.response.data.error);
+        dispatch(authFail(err.response.data.error));
+      });
   };
 };

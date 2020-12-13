@@ -17,3 +17,7 @@
     width: 500px;
   }
 }
+
+.error {
+  color: red;
+}
