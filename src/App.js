@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 import Layout from "./components/Layout/Layout";
@@ -17,24 +17,37 @@ class App extends Component {
   }
 
   render() {
+    const routes = this.props.isAuth ? (
+      <Switch>
+        <Route path="/checkout" component={Checkout} />
+        <Route path="/orders" component={Orders} />
+        <Route path="/logout" component={Logout} />
+        <Route path="/" exact component={BurgerBuilder} />
+        <Redirect to="/" />
+      </Switch>
+    ) : (
+      <Switch>
+        <Route path="/auth" component={Auth} />
+        <Route path="/" exact component={BurgerBuilder} />
+      </Switch>
+    );
+
     return (
       <BrowserRouter>
         <div>
-          <Layout>
-            <Route path="/checkout" component={Checkout} />
-            <Route path="/orders" component={Orders} />
-            <Route path="/auth" component={Auth} />
-            <Route path="/logout" component={Logout} />
-            <Route path="/" exact component={BurgerBuilder} />
-          </Layout>
+          <Layout>{routes}</Layout>
         </div>
       </BrowserRouter>
     );
   }
 }
 
+const mapStateToProps = (state) => ({
+  isAuth: state.auth.token !== null,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   checkAuth: () => dispatch(actions.checkAuthState()),
 });
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

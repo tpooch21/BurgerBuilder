@@ -45,7 +45,6 @@ export const auth = (email, password, method) => {
     // If method is true, that means we're signing UP
     // If false, user is signing IN
     // assign appropriate url according to auth method
-    console.log(method);
     const url = method
       ? "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAw3qRZzTdajHubRFMZvspQoVkOwlGPYvw"
       : "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAw3qRZzTdajHubRFMZvspQoVkOwlGPYvw";

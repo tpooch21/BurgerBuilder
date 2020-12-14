@@ -52,9 +52,9 @@ class ContactData extends Component {
           postalCode: this.state.address.postalCode,
         },
         email: this.state.email,
+        userId: this.props.userId,
       },
     };
-
     this.props.purchaseBurger(order, this.props.token);
   };
 
@@ -117,6 +117,7 @@ const mapStateToProps = (state) => {
     price: state.burgerBuilder.totalPrice,
     loading: state.order.loading,
     token: state.auth.token,
+    userId: state.auth.userId,
   };
 };
 
